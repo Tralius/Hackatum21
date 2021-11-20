@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "823784393886",
+    "project_id": "collapseguide",
+    "storage_bucket": "collapseguide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823784393886:android:80c4d1bb428036d78e7f8f",
+        "android_client_info": {
+          "package_name": "com.treesorang.collapseguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "823784393886-nknbih3jukutr9rpur11gu2j2ukbvobp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8OepfWIoB3gFyq_oIkbSWegTv-_-P5PI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "823784393886-nknbih3jukutr9rpur11gu2j2ukbvobp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
