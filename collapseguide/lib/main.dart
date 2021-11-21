@@ -161,16 +161,26 @@ class _State extends State<Guides> {
                   backgroundColor: colors.nature2,
                   title: const Text('Millenials Guide to Climate Disaster')),
               body: PageView(
-                children: [
+                children: const [
                   GuideEntry(
                     imgUrl: 'img1.jpg',
-                    name: 'Name1',
+                    name: 'How to gardening',
                     text:
                         'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
                   ),
                   GuideEntry(
                     imgUrl: "img2.jpg",
-                    name: "Name2",
+                    name: "How to not (m)eat",
+                    text: 'Lorem Ipsum',
+                  ),
+                  GuideEntry(
+                    imgUrl: "img3.jpg",
+                    name: "How to not car(e)",
+                    text: 'Lorem Ipsum',
+                  ),
+                  GuideEntry(
+                    imgUrl: "img4.jpg",
+                    name: "How to shelter",
                     text: 'Lorem Ipsum',
                   )
                 ],
@@ -202,15 +212,26 @@ class _State extends State<Guides> {
                 backgroundColor: colors.nature2,
                 title: const Text('Millenials Guide to Climate Disaster')),
             body: PageView(
-              children: [
+              children: const [
                 GuideEntry(
                   imgUrl: 'img1.jpg',
-                  name: 'Name1',
-                  text: 'Lorem Ipsum',
+                  name: 'How to gardening',
+                  text:
+                      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
                 ),
                 GuideEntry(
                   imgUrl: "img2.jpg",
-                  name: "Name2",
+                  name: "How to not (m)eat",
+                  text: 'Lorem Ipsum',
+                ),
+                GuideEntry(
+                  imgUrl: "img3.jpg",
+                  name: "How to not car(e)",
+                  text: 'Lorem Ipsum',
+                ),
+                GuideEntry(
+                  imgUrl: "img4.jpg",
+                  name: "How to shelter",
                   text: 'Lorem Ipsum',
                 )
               ],
@@ -219,7 +240,7 @@ class _State extends State<Guides> {
               child: ListView(
                 children: [
                   const DrawerHeader(
-                    child: const Text('Sections'),
+                    child: Text('Sections'),
                   ),
                   ListTile(
                     title: const Text('TaskPage'),
@@ -353,13 +374,18 @@ class _TaskPageState extends State<TaskPage> {
     return Scaffold(
         body: PageView(children: [
       TaskEntry(
-        name: 'name1',
-        text: 'Lorem Ipsum',
+        name: 'No to meat',
+        text: 'Eat vegan for today. An apple a day keeps the doc away.',
         points: '10',
       ),
       TaskEntry(
-        name: 'name2',
-        text: 'Lorem Ipsum',
+        name: 'Spooky House',
+        text: 'Do not turn on lights in your house until 7pm.',
+        points: '10',
+      ),
+      TaskEntry(
+        name: 'No media good media',
+        text: 'Do not use social media for a day.',
         points: '10',
       ),
     ]));
