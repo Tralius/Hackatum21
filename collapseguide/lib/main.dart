@@ -14,28 +14,66 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'HackaTum21',
-        theme: ThemeData(fontFamily: 'Mogra'),
-        home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: colors.nature2,
-            title: const Text('Millenials Guide to Climate Disaster'),
-          ),
-          body: const TaskPage(),
-          drawer: Drawer(
-            child: ListView(
-              children: [
-                const DrawerHeader(
-                  child: const Text('Sections'),
-                ),
-                ListTile(
-                  title: const Text('Item 1'),
-                  onTap: () {},
-                )
-              ],
+      title: 'HackaTum21',
+      theme: ThemeData(fontFamily: 'Mogra'),
+      home: const HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/taskPage': (context) => const TaskPage(),
+        '/guidesPage': (context) => const Guides()
+      },
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: colors.nature2,
+        title: const Text('Millenials Guide to Climate Disaster'),
+      ),
+      body: const BasePage(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              child: const Text('Sections'),
             ),
-          ),
-        ));
+            ListTile(
+              title: const Text('TaskPage'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/taskPage');
+              },
+            ),
+            ListTile(
+              title: const Text('Guides'),
+              onTap: () {
+                Navigator.pushNamed(context, '/guidesPage');
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class BasePage extends StatefulWidget {
+  const BasePage({Key? key}) : super(key: key);
+
+  @override
+  _BasePageState createState() => _BasePageState();
+}
+
+class _BasePageState extends State<BasePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
 
@@ -66,20 +104,33 @@ class _State extends State<Guides> {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return PageView(
-            children: [
-              GuideEntry(
-                imgUrl: 'img1.jpg',
-                name: 'Name1',
-                text: 'Lorem Ipsum',
-              ),
-              GuideEntry(
-                imgUrl: "img2.jpg",
-                name: "Name2",
-                text: 'Lorem Ipsum',
-              )
-            ],
-          );
+          return Stack(children: [
+            Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                    padding: EdgeInsets.only(right: 16, top: 16),
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      backgroundColor: colors.nature2,
+                      child: Icon(Icons.home),
+                    ))),
+            PageView(
+              children: [
+                GuideEntry(
+                  imgUrl: 'img1.jpg',
+                  name: 'Name1',
+                  text: 'Lorem Ipsum',
+                ),
+                GuideEntry(
+                  imgUrl: "img2.jpg",
+                  name: "Name2",
+                  text: 'Lorem Ipsum',
+                )
+              ],
+            )
+          ]);
         }
 
         /// TEMP CODE SO DART DOESN'T CRY
@@ -246,7 +297,9 @@ class TaskEntry extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             backgroundColor: colors.nature2,
             child: Icon(Icons.done),
           ),
