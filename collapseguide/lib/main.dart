@@ -1,115 +1,456 @@
+import 'package:collapseguide/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/rendering.dart';
+
+final colors = AppColors();
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'HackaTum21',
+      theme: ThemeData(fontFamily: 'Mogra'),
+      home: const HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/taskPage': (context) => const TaskPage(),
+        '/guidesPage': (context) => const Guides()
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: colors.nature2,
+        title: const Text('Millenials Guide to Climate Disaster'),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: const LandingPage(),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              child: const Text('Sections'),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            ListTile(
+              title: const Text('TaskPage'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/taskPage');
+              },
             ),
+            ListTile(
+              title: const Text('Guides'),
+              onTap: () {
+                Navigator.pushNamed(context, '/guidesPage');
+              },
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
+class BasePage extends StatefulWidget {
+  const BasePage({Key? key}) : super(key: key);
+
+  @override
+  _BasePageState createState() => _BasePageState();
+}
+
+class _BasePageState extends State<BasePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class LandingPage extends StatelessWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      //pageSnapping: false,
+      scrollDirection: Axis.horizontal,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('landing1.png'), fit: BoxFit.fill)),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('landing2.png'), fit: BoxFit.fill)),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('landing3.png'), fit: BoxFit.fill)),
+        ),
+        Stack(children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/');
+              },
+              backgroundColor: colors.nature2,
+              child: const Icon(Icons.arrow_forward),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('landing4.png'), fit: BoxFit.fill)),
+          )
+        ])
+      ],
+    );
+  }
+}
+
+class Guides extends StatefulWidget {
+  const Guides({Key? key}) : super(key: key);
+
+  @override
+  _State createState() => _State();
+}
+
+// ToDo implement firebase
+class _State extends State<Guides> {
+  final PageController ctrl = PageController();
+
+  final database = FirebaseDatabase.instance.reference();
+
+  // Initialize flutterfire
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+  @override
+  Widget build(BuildContext context) {
+    final guideEntriesRef = database.child('/guideEntries/');
+
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          //return SomethingWentWrong();
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+              appBar: AppBar(
+                  backgroundColor: colors.nature2,
+                  title: const Text('Millenials Guide to Climate Disaster')),
+              body: PageView(
+                children: const [
+                  GuideEntry(
+                    imgUrl: 'img1.jpg',
+                    name: 'How to gardening',
+                    text:
+                        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                  ),
+                  GuideEntry(
+                    imgUrl: "img2.jpg",
+                    name: "How to not (m)eat",
+                    text: 'Lorem Ipsum',
+                  ),
+                  GuideEntry(
+                    imgUrl: "img3.jpg",
+                    name: "How to not car(e)",
+                    text: 'Lorem Ipsum',
+                  ),
+                  GuideEntry(
+                    imgUrl: "img4.jpg",
+                    name: "How to shelter",
+                    text: 'Lorem Ipsum',
+                  )
+                ],
+              ),
+              drawer: Drawer(
+                child: ListView(
+                  children: [
+                    const DrawerHeader(
+                      child: const Text('Sections'),
+                    ),
+                    ListTile(
+                      title: const Text('TaskPage'),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/taskPage');
+                      },
+                    ),
+                    ListTile(
+                      title: const Text('Guides'),
+                      onTap: () {},
+                    )
+                  ],
+                ),
+              ));
+        }
+
+        /// TEMP CODE SO DART DOESN'T CRY
+        return Scaffold(
+            appBar: AppBar(
+                backgroundColor: colors.nature2,
+                title: const Text('Millenials Guide to Climate Disaster')),
+            body: PageView(
+              children: const [
+                GuideEntry(
+                  imgUrl: 'img1.jpg',
+                  name: 'How to gardening',
+                  text:
+                      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+                ),
+                GuideEntry(
+                  imgUrl: "img2.jpg",
+                  name: "How to not (m)eat",
+                  text: 'Lorem Ipsum',
+                ),
+                GuideEntry(
+                  imgUrl: "img3.jpg",
+                  name: "How to not car(e)",
+                  text: 'Lorem Ipsum',
+                ),
+                GuideEntry(
+                  imgUrl: "img4.jpg",
+                  name: "How to shelter",
+                  text: 'Lorem Ipsum',
+                )
+              ],
+            ),
+            drawer: Drawer(
+              child: ListView(
+                children: [
+                  const DrawerHeader(
+                    child: Text('Sections'),
+                  ),
+                  ListTile(
+                    title: const Text('TaskPage'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/taskPage');
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Guides'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/guidesPage');
+                    },
+                  )
+                ],
+              ),
+            ));
+
+        ///TEMP CODE
+
+        // Otherwise, show something whilst waiting for initialization to complete
+        //return Loading();
+      },
+    );
+  }
+}
+
+// Entry in guide (1 for every guide database entry)
+// Data: Name and img link
+class GuideEntry extends StatelessWidget {
+  const GuideEntry(
+      {Key? key, required this.imgUrl, required this.name, required this.text})
+      : super(key: key);
+
+  final String imgUrl;
+  final String name;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+        //pageSnapping: false,
+        scrollDirection: Axis.vertical,
+        children: [
+          Container(
+            child: Stack(
+              children: [
+                Stack(
+                  children: [
+                    /*Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                            padding: EdgeInsets.only(right: 16, top: 16),
+                            child: FloatingActionButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              backgroundColor: colors.nature2,
+                              child: Icon(Icons.home),
+                            ))),*/
+                    Opacity(
+                      opacity: 0.50,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(this.imgUrl),
+                                fit: BoxFit.cover)),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10, top: 10),
+                        child: Text(this.name,
+                            style:
+                                TextStyle(color: colors.nature2, fontSize: 36)),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        children: [
+                          Center(
+                              child: Text('Explore',
+                                  style: TextStyle(
+                                      color: colors.nature2, fontSize: 16))),
+                          Icon(
+                            Icons.arrow_downward,
+                            color: colors.nature2,
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(right: 20, left: 20),
+              child: Text(
+                this.text,
+                style: TextStyle(
+                  color: colors.nature2,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          )
+        ]);
+  }
+}
+
+class TaskPage extends StatefulWidget {
+  const TaskPage({Key? key}) : super(key: key);
+
+  @override
+  _TaskPageState createState() => _TaskPageState();
+}
+
+class _TaskPageState extends State<TaskPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: PageView(children: [
+      TaskEntry(
+        name: 'No to meat',
+        text: 'Eat vegan for today. An apple a day keeps the doc away.',
+        points: '10',
+      ),
+      TaskEntry(
+        name: 'Spooky House',
+        text: 'Do not turn on lights in your house until 7pm.',
+        points: '10',
+      ),
+      TaskEntry(
+        name: 'No media good media',
+        text: 'Do not use social media for a day.',
+        points: '10',
+      ),
+    ]));
+  }
+}
+
+class TaskEntry extends StatelessWidget {
+  TaskEntry(
+      {Key? key, required this.name, required this.text, required this.points})
+      : super(key: key);
+
+  final String name;
+  final String text;
+  final String points;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: colors.nature3,
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30.0),
+            child: Container(
+              constraints: BoxConstraints(minHeight: 600, maxWidth: 300),
+              color: colors.nature4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 20, top: 10),
+                        child: Text(
+                          this.name,
+                          style: TextStyle(color: colors.nature5, fontSize: 36),
+                        )),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 16, bottom: 16),
+                        child: Text(this.text,
+                            style: TextStyle(
+                                color: colors.nature5, fontSize: 16))),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            backgroundColor: colors.nature2,
+            child: Icon(Icons.done),
+          ),
+        )
+      ]),
+    );
+  }
+}
+
+// Builders
