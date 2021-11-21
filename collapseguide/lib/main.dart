@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(MyApp());
@@ -6,6 +7,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +31,47 @@ class Guides extends StatefulWidget {
 class _State extends State<Guides> {
   final PageController ctrl = PageController();
 
+  // Initialize flutterfire
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      children: [
-        GuideEntry(imgUrl: 'img1.jpg', name: 'Name1'),
-        GuideEntry(imgUrl: "img2.jpg", name: "Name2")
-      ],
+
+
+
+    return FutureBuilder(
+        // Initialize FlutterFire:
+        future: _initialization,
+        builder: (context, snapshot) {
+
+      // Check for errors
+      if (snapshot.hasError) {
+        //return SomethingWentWrong();
+      }
+
+      // Once complete, show your application
+      if (snapshot.connectionState == ConnectionState.done) {
+        return PageView(
+          children: [
+            GuideEntry(imgUrl: 'img1.jpg', name: 'Name1'),
+            GuideEntry(imgUrl: "img2.jpg", name: "Name2")
+          ],
+        );
+      }
+
+      /// TEMP CODE SO DART DOESN'T CRY
+      return PageView(
+        children: [
+          GuideEntry(imgUrl: 'img1.jpg', name: 'Name1'),
+          GuideEntry(imgUrl: "img2.jpg", name: "Name2")
+        ],
+      );
+      ///TEMP CODE
+
+      // Otherwise, show something whilst waiting for initialization to complete
+      //return Loading();
+      },
     );
   }
 }
