@@ -104,33 +104,20 @@ class _State extends State<Guides> {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return Stack(children: [
-            Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                    padding: EdgeInsets.only(right: 16, top: 16),
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      backgroundColor: colors.nature2,
-                      child: Icon(Icons.home),
-                    ))),
-            PageView(
-              children: [
-                GuideEntry(
-                  imgUrl: 'img1.jpg',
-                  name: 'Name1',
-                  text: 'Lorem Ipsum',
-                ),
-                GuideEntry(
-                  imgUrl: "img2.jpg",
-                  name: "Name2",
-                  text: 'Lorem Ipsum',
-                )
-              ],
-            )
-          ]);
+          return PageView(
+            children: [
+              GuideEntry(
+                imgUrl: 'img1.jpg',
+                name: 'Name1',
+                text: 'Lorem Ipsum',
+              ),
+              GuideEntry(
+                imgUrl: "img2.jpg",
+                name: "Name2",
+                text: 'Lorem Ipsum',
+              )
+            ],
+          );
         }
 
         /// TEMP CODE SO DART DOESN'T CRY
@@ -178,6 +165,17 @@ class GuideEntry extends StatelessWidget {
           Container(
             child: Stack(
               children: [
+                Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                        padding: EdgeInsets.only(right: 16, top: 16),
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          backgroundColor: colors.nature2,
+                          child: Icon(Icons.home),
+                        ))),
                 Opacity(
                   opacity: 0.50,
                   child: Container(
