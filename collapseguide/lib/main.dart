@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'HackaTum21',
         theme: ThemeData(fontFamily: 'Mogra'),
         home: Scaffold(
-          body: TaskPage(),
+          body: Guides(),
         ));
   }
 }
@@ -121,12 +121,21 @@ class GuideEntry extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(this.name),
-                    Column(
-                      children: [
-                        Center(child: Text('Explore')),
-                        Icon(Icons.arrow_downward)
-                      ],
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10, top: 10),
+                        child: Text(this.name),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Column(
+                        children: [
+                          Center(child: Text('Explore')),
+                          Icon(Icons.arrow_downward)
+                        ],
+                      ),
                     )
                   ],
                 )
@@ -170,34 +179,57 @@ class TaskEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: colors.nature3,
-        child: Column(
-          children: [
-            Container(),
-            Stack(
-              children: [
-                Center(
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30.0),
-                      child: Container(
-                        color: colors.nature4,
-                        constraints:
-                            BoxConstraints(maxHeight: 300.0, maxWidth: 300.0),
-                        alignment: AlignmentDirectional(0.0, 0.0),
-                      )),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text(this.name), Text(this.text)],
-                )
-              ],
+      color: colors.nature3,
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            color: colors.nature2,
+            width: 100,
+            height: 20,
+          ),
+        ),
+        Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30.0),
+            child: Container(
+              constraints: BoxConstraints(minHeight: 600, maxWidth: 300),
+              color: colors.nature4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 20, top: 10),
+                        child: Text(
+                          this.name,
+                          textAlign: TextAlign.left,
+                        )),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 16, bottom: 16),
+                        child: Text(this.text)),
+                  )
+                ],
+              ),
             ),
-            Container()
-          ],
-        ));
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: FloatingActionButton(
+            onPressed: () {},
+            backgroundColor: colors.nature2,
+            child: Icon(Icons.done),
+          ),
+        )
+      ]),
+    );
   }
 }
 
 // Builders
-
-
