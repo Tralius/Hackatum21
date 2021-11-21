@@ -51,8 +51,16 @@ class _State extends State<Guides> {
         if (snapshot.connectionState == ConnectionState.done) {
           return PageView(
             children: [
-              GuideEntry(imgUrl: 'img1.jpg', name: 'Name1'),
-              GuideEntry(imgUrl: "img2.jpg", name: "Name2")
+              GuideEntry(
+                imgUrl: 'img1.jpg',
+                name: 'Name1',
+                text: 'Lorem Ipsum',
+              ),
+              GuideEntry(
+                imgUrl: "img2.jpg",
+                name: "Name2",
+                text: 'Lorem Ipsum',
+              )
             ],
           );
         }
@@ -60,8 +68,16 @@ class _State extends State<Guides> {
         /// TEMP CODE SO DART DOESN'T CRY
         return PageView(
           children: [
-            GuideEntry(imgUrl: 'img1.jpg', name: 'Name1'),
-            GuideEntry(imgUrl: "img2.jpg", name: "Name2")
+            GuideEntry(
+              imgUrl: 'img1.jpg',
+              name: 'Name1',
+              text: 'Lorem Ipsum',
+            ),
+            GuideEntry(
+              imgUrl: "img2.jpg",
+              name: "Name2",
+              text: 'Lorem Ipsum',
+            )
           ],
         );
 
