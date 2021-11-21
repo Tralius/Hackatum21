@@ -17,7 +17,24 @@ class MyApp extends StatelessWidget {
         title: 'HackaTum21',
         theme: ThemeData(fontFamily: 'Mogra'),
         home: Scaffold(
-          body: Guides(),
+          appBar: AppBar(
+            backgroundColor: colors.nature2,
+            title: const Text('Millenials Guide to Climate Disaster'),
+          ),
+          body: const TaskPage(),
+          drawer: Drawer(
+            child: ListView(
+              children: [
+                const DrawerHeader(
+                  child: const Text('Sections'),
+                ),
+                ListTile(
+                  title: const Text('Item 1'),
+                  onTap: () {},
+                )
+              ],
+            ),
+          ),
         ));
   }
 }
@@ -163,18 +180,25 @@ class _TaskPageState extends State<TaskPage> {
       TaskEntry(
         name: 'name1',
         text: 'Lorem Ipsum',
+        points: '10',
       ),
-      TaskEntry(name: 'name2', text: 'Lorem Ipsum'),
+      TaskEntry(
+        name: 'name2',
+        text: 'Lorem Ipsum',
+        points: '10',
+      ),
     ]);
   }
 }
 
 class TaskEntry extends StatelessWidget {
-  TaskEntry({Key? key, required this.name, required this.text})
+  TaskEntry(
+      {Key? key, required this.name, required this.text, required this.points})
       : super(key: key);
 
   final String name;
   final String text;
+  final String points;
 
   @override
   Widget build(BuildContext context) {
