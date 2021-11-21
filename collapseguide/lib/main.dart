@@ -141,9 +141,22 @@ class _State extends State<Guides> {
   // Initialize flutterfire
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
+  List<GuideEntry> guideEntries = new List.empty();
+
   @override
   Widget build(BuildContext context) {
     final guideEntriesRef = database.child('/guideEntries/');
+
+    void _fetchEntriesOnce(){
+      database.child('guideEntries/').get().then((snapshot) {
+        var guideEntriesMap = snapshot.value;
+        
+        guideEntriesMap.forEach((json) {
+          guideEntries.add(GuideEntry.fromJSON(json);
+        });
+
+      });
+    }
 
     return FutureBuilder(
       // Initialize FlutterFire:
@@ -206,7 +219,7 @@ class _State extends State<Guides> {
               ));
         }
 
-        /// TEMP CODE SO DART DOESN'T CRY
+
         return Scaffold(
             appBar: AppBar(
                 backgroundColor: colors.nature2,
@@ -259,7 +272,6 @@ class _State extends State<Guides> {
               ),
             ));
 
-        ///TEMP CODE
 
         // Otherwise, show something whilst waiting for initialization to complete
         //return Loading();
@@ -278,6 +290,10 @@ class GuideEntry extends StatelessWidget {
   final String imgUrl;
   final String name;
   final String text;
+
+  factory GuideEntry.fromJSON(Map<dynamic, dynamic> json){
+    return GuideEntry(imgUrl: json['image'], name: json['name'], text: json['text']);
+  }
 
   @override
   Widget build(BuildContext context) {
