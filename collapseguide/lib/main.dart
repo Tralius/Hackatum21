@@ -1,5 +1,6 @@
 import 'package:collapseguide/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 final colors = AppColors();
 
@@ -32,22 +33,43 @@ class Guides extends StatefulWidget {
 class _State extends State<Guides> {
   final PageController ctrl = PageController();
 
+  // Initialize flutterfire
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      children: [
-        GuideEntry(
-          imgUrl: 'img1.jpg',
-          name: 'Name1',
-          text:
-              'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
-        ),
-        GuideEntry(
-          imgUrl: "img2.jpg",
-          name: "Name2",
-          text: 'Lorem Ipsum',
-        )
-      ],
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          //return SomethingWentWrong();
+        }
+
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return PageView(
+            children: [
+              GuideEntry(imgUrl: 'img1.jpg', name: 'Name1'),
+              GuideEntry(imgUrl: "img2.jpg", name: "Name2")
+            ],
+          );
+        }
+
+        /// TEMP CODE SO DART DOESN'T CRY
+        return PageView(
+          children: [
+            GuideEntry(imgUrl: 'img1.jpg', name: 'Name1'),
+            GuideEntry(imgUrl: "img2.jpg", name: "Name2")
+          ],
+        );
+
+        ///TEMP CODE
+
+        // Otherwise, show something whilst waiting for initialization to complete
+        //return Loading();
+      },
     );
   }
 }
