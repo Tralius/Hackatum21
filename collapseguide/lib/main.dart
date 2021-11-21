@@ -1,6 +1,8 @@
 import 'package:collapseguide/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/rendering.dart';
 
 final colors = AppColors();
 
@@ -36,7 +38,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: colors.nature2,
         title: const Text('Millenials Guide to Climate Disaster'),
       ),
-      body: const BasePage(),
+      body: const LandingPage(),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -77,6 +79,52 @@ class _BasePageState extends State<BasePage> {
   }
 }
 
+class LandingPage extends StatelessWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      //pageSnapping: false,
+      scrollDirection: Axis.horizontal,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('landing1.png'), fit: BoxFit.fill)),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('landing2.png'), fit: BoxFit.fill)),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('landing3.png'), fit: BoxFit.fill)),
+        ),
+        Stack(children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/');
+              },
+              backgroundColor: colors.nature2,
+              child: const Icon(Icons.arrow_forward),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('landing4.png'), fit: BoxFit.fill)),
+          )
+        ])
+      ],
+    );
+  }
+}
+
 class Guides extends StatefulWidget {
   const Guides({Key? key}) : super(key: key);
 
@@ -88,11 +136,15 @@ class Guides extends StatefulWidget {
 class _State extends State<Guides> {
   final PageController ctrl = PageController();
 
+  final database = FirebaseDatabase.instance.reference();
+
   // Initialize flutterfire
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
+    final guideEntriesRef = database.child('/guideEntries/');
+
     return FutureBuilder(
       // Initialize FlutterFire:
       future: _initialization,
@@ -104,37 +156,86 @@ class _State extends State<Guides> {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return PageView(
-            children: [
-              GuideEntry(
-                imgUrl: 'img1.jpg',
-                name: 'Name1',
-                text: 'Lorem Ipsum',
+          return Scaffold(
+              appBar: AppBar(
+                  backgroundColor: colors.nature2,
+                  title: const Text('Millenials Guide to Climate Disaster')),
+              body: PageView(
+                children: [
+                  GuideEntry(
+                    imgUrl: 'img1.jpg',
+                    name: 'Name1',
+                    text: 'Lorem Ipsum',
+                  ),
+                  GuideEntry(
+                    imgUrl: "img2.jpg",
+                    name: "Name2",
+                    text: 'Lorem Ipsum',
+                  )
+                ],
               ),
-              GuideEntry(
-                imgUrl: "img2.jpg",
-                name: "Name2",
-                text: 'Lorem Ipsum',
-              )
-            ],
-          );
+              drawer: Drawer(
+                child: ListView(
+                  children: [
+                    const DrawerHeader(
+                      child: const Text('Sections'),
+                    ),
+                    ListTile(
+                      title: const Text('TaskPage'),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/taskPage');
+                      },
+                    ),
+                    ListTile(
+                      title: const Text('Guides'),
+                      onTap: () {},
+                    )
+                  ],
+                ),
+              ));
         }
 
         /// TEMP CODE SO DART DOESN'T CRY
-        return PageView(
-          children: [
-            GuideEntry(
-              imgUrl: 'img1.jpg',
-              name: 'Name1',
-              text: 'Lorem Ipsum',
+        return Scaffold(
+            appBar: AppBar(
+                backgroundColor: colors.nature2,
+                title: const Text('Millenials Guide to Climate Disaster')),
+            body: PageView(
+              children: [
+                GuideEntry(
+                  imgUrl: 'img1.jpg',
+                  name: 'Name1',
+                  text: 'Lorem Ipsum',
+                ),
+                GuideEntry(
+                  imgUrl: "img2.jpg",
+                  name: "Name2",
+                  text: 'Lorem Ipsum',
+                )
+              ],
             ),
-            GuideEntry(
-              imgUrl: "img2.jpg",
-              name: "Name2",
-              text: 'Lorem Ipsum',
-            )
-          ],
-        );
+            drawer: Drawer(
+              child: ListView(
+                children: [
+                  const DrawerHeader(
+                    child: const Text('Sections'),
+                  ),
+                  ListTile(
+                    title: const Text('TaskPage'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/taskPage');
+                    },
+                  ),
+                  ListTile(
+                    title: const Text('Guides'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/guidesPage');
+                    },
+                  )
+                ],
+              ),
+            ));
 
         ///TEMP CODE
 
@@ -165,24 +266,29 @@ class GuideEntry extends StatelessWidget {
           Container(
             child: Stack(
               children: [
-                Align(
-                    alignment: Alignment.topRight,
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 16, top: 16),
-                        child: FloatingActionButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          backgroundColor: colors.nature2,
-                          child: Icon(Icons.home),
-                        ))),
-                Opacity(
-                  opacity: 0.50,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(this.imgUrl), fit: BoxFit.cover)),
-                  ),
+                Stack(
+                  children: [
+                    /*Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                            padding: EdgeInsets.only(right: 16, top: 16),
+                            child: FloatingActionButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              backgroundColor: colors.nature2,
+                              child: Icon(Icons.home),
+                            ))),*/
+                    Opacity(
+                      opacity: 0.50,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(this.imgUrl),
+                                fit: BoxFit.cover)),
+                      ),
+                    )
+                  ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -225,7 +331,8 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   @override
   Widget build(BuildContext context) {
-    return PageView(children: [
+    return Scaffold(
+        body: PageView(children: [
       TaskEntry(
         name: 'name1',
         text: 'Lorem Ipsum',
@@ -236,7 +343,7 @@ class _TaskPageState extends State<TaskPage> {
         text: 'Lorem Ipsum',
         points: '10',
       ),
-    ]);
+    ]));
   }
 }
 
