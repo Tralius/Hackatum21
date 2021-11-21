@@ -165,7 +165,8 @@ class _State extends State<Guides> {
                   GuideEntry(
                     imgUrl: 'img1.jpg',
                     name: 'Name1',
-                    text: 'Lorem Ipsum',
+                    text:
+                        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
                   ),
                   GuideEntry(
                     imgUrl: "img2.jpg",
@@ -260,7 +261,7 @@ class GuideEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
-        pageSnapping: false,
+        //pageSnapping: false,
         scrollDirection: Axis.vertical,
         children: [
           Container(
@@ -297,15 +298,23 @@ class GuideEntry extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: EdgeInsets.only(left: 10, top: 10),
-                        child: Text(this.name),
+                        child: Text(this.name,
+                            style:
+                                TextStyle(color: colors.nature2, fontSize: 36)),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 10),
                       child: Column(
                         children: [
-                          Center(child: Text('Explore')),
-                          Icon(Icons.arrow_downward)
+                          Center(
+                              child: Text('Explore',
+                                  style: TextStyle(
+                                      color: colors.nature2, fontSize: 16))),
+                          Icon(
+                            Icons.arrow_downward,
+                            color: colors.nature2,
+                          )
                         ],
                       ),
                     )
@@ -314,8 +323,18 @@ class GuideEntry extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            child: Text(this.text),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(right: 20, left: 20),
+              child: Text(
+                this.text,
+                style: TextStyle(
+                  color: colors.nature2,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           )
         ]);
   }
@@ -362,14 +381,6 @@ class TaskEntry extends StatelessWidget {
       color: colors.nature3,
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            color: colors.nature2,
-            width: 100,
-            height: 20,
-          ),
-        ),
         Center(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(30.0),
@@ -385,14 +396,16 @@ class TaskEntry extends StatelessWidget {
                         padding: EdgeInsets.only(left: 20, top: 10),
                         child: Text(
                           this.name,
-                          textAlign: TextAlign.left,
+                          style: TextStyle(color: colors.nature5, fontSize: 36),
                         )),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
                         padding: EdgeInsets.only(left: 16, bottom: 16),
-                        child: Text(this.text)),
+                        child: Text(this.text,
+                            style: TextStyle(
+                                color: colors.nature5, fontSize: 16))),
                   )
                 ],
               ),
